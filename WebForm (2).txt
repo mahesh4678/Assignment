@@ -1,0 +1,111 @@
+USE [Assignment]
+GO
+
+/****** Object:  Table [dbo].[Customeer]    Script Date: 10/10/2022 12:09:10 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Customeer](
+	[CustomerID] [int] NOT NULL,
+	[CustomerName] [varchar](40) NOT NULL,
+	[BillingAddress] [varchar](50) NOT NULL,
+	[ShippingAddress] [varchar](50) NOT NULL,
+	[Phone] [bigint] NOT NULL,
+	[Email] [char](20) NOT NULL,
+	[IsActive] [char](10) NOT NULL,
+	[LastOrderedOn] [date] NOT NULL,
+ CONSTRAINT [PK_Customeer] PRIMARY KEY CLUSTERED 
+(
+	[CustomerID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+USE [Assignment]
+GO
+
+/****** Object:  Table [dbo].[Order]    Script Date: 10/10/2022 12:09:46 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Order](
+	[OrderID] [int] NOT NULL,
+	[OrderDate] [date] NOT NULL,
+	[CustomerID] [int] NOT NULL,
+	[OrderAmount] [money] NOT NULL,
+	[TotalQty] [bigint] NOT NULL,
+	[PaymentMode] [varchar](10) NOT NULL,
+ CONSTRAINT [PK_Order] PRIMARY KEY CLUSTERED 
+(
+	[OrderID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Order]  WITH CHECK ADD  CONSTRAINT [FK_Order_Customeer] FOREIGN KEY([CustomerID])
+REFERENCES [dbo].[Customeer] ([CustomerID])
+GO
+
+ALTER TABLE [dbo].[Order] CHECK CONSTRAINT [FK_Order_Customeer]
+GO
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+
+USE [Assignment]
+GO
+
+/****** Object:  Table [dbo].[OrderDetail]    Script Date: 10/10/2022 12:10:31 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[OrderDetail](
+	[OrderID] [int] NULL,
+	[ProductID] [int] NULL,
+	[CustomerName] [varchar](40) NULL,
+	[ProductName] [varchar](40) NULL,
+	[Rate] [money] NULL,
+	[Quantity] [bigint] NULL,
+	[TotalAmount] [money] NULL,
+	[OrderDate] [nchar](10) NULL
+) ON [PRIMARY]
+GO
+
+
+---------------------------------------------------------------------------------------------------------------
+
+USE [Assignment]
+GO
+
+/****** Object:  Table [dbo].[Product]    Script Date: 10/10/2022 12:12:41 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Product](
+	[ProductID] [int] NOT NULL,
+	[ProductName] [varchar](40) NOT NULL,
+	[Value] [money] NULL,
+	[InStockQty] [bigint] NOT NULL,
+ CONSTRAINT [PK_Product] PRIMARY KEY CLUSTERED 
+(
+	[ProductID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
